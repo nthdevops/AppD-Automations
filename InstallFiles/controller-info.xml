@@ -1,0 +1,23 @@
+<controller-info>
+
+  <controller-host>CONTROLLER</controller-host>
+
+  <controller-port>PORTA</controller-port>
+
+  <controller-ssl-enabled>false</controller-ssl-enabled>
+
+  <enable-orchestration>false</enable-orchestration>
+
+  <unique-host-id></unique-host-id>
+
+  <account-access-key>KEY</account-access-key>
+
+  <account-name>ACCOUNT_NAME</account-name>
+
+  <sim-enabled>true</sim-enabled>
+
+  <machine-path></machine-path>
+
+  <dotnet-compatibility-mode>true</dotnet-compatibility-mode>
+
+</controller-info>
