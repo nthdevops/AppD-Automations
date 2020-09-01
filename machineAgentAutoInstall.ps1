@@ -24,28 +24,36 @@ function Create {
 	}
 }
 
+Write-Host Setting up agent installation..
 # A partir do diretório InstallFiles, declara as variáveis iniciais e cria os diretórios necessários
-Set-Location "$PSScriptRoot\InstallFiles"
-$machineDir = "$Env:ProgramData\AppDynamics\MachineAgent"
+$installFiles = "$PSScriptRoot\InstallFiles\"
+Set-Location $installFiles
+$machineDir = "$Env:ProgramFiles\AppDynamics\MachineAgent"
 Create $machineDir
 $machineAgentZip = Get-ChildItem ".\*machineagent*" -Name
-$ADConfig = ".\AD_Config.xml"
-$controllerInfo = ".\controller-info.xml"
+$machineAgentZip = $installFiles + $machineAgentZip
+$controllerInfo = $installFiles+"controller-info.xml"
 
+if (-not (Test-Path $machineAgentZip)){
+  Write-Host Missing machineagent zip file
+  Break
+}
+
+if (-not (Test-Path $controllerInfo)){
+  Write-Host Missing configuration file controller-info.xml
+  Break
+}
+
+Write-Host Unzipping Machine Agent Files..
 # Faz unzip do machineagent e o instala
 Unzip "$machineAgentZip" "$machineDir"
 Copy-Item $controllerInfo -Destination "$machineDir\conf\" -Force
+Write-Host Installing Machine Agent..
 Start-Process "$machineDir\InstallService.vbs"
 
-# Muda propriedade no registro do windows para não ter problemas na subida de serviços do windows com o agente
-New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control -Name ServicesPipeTimeout -Value 180000 -PropertyType DWORD -Force
-# Copia o arquivo de configuração do instalador de .NET e instala o agente
-Copy-Item $ADConfig ".\dotNetAgentSetup\AppDynamics\"
-Start-Process ".\dotNetAgentSetup\Installer.bat"
 
 # Restart dos serviços do AppDynamics
-Restart-Service -Name "AppDynamics.Agent.Coordinator_service"
+Write-Host Restarting AppDynamics Machine Agent Service
 Restart-Service -Name "Appdynamics Machine Agent"
 
-# Deleta o arquivo de configuração
-Remove-Item ".\dotNetAgentSetup\AppDynamics\AD_Config.xml"
+Pause

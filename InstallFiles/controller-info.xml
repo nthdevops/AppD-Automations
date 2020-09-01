@@ -1,8 +1,8 @@
 <controller-info>
 
-  <controller-host>CONTROLLER</controller-host>
+  <controller-host>https://econocombrasil.saas.appdynamics.com</controller-host>
 
-  <controller-port>PORTA</controller-port>
+  <controller-port>443</controller-port>
 
   <controller-ssl-enabled>false</controller-ssl-enabled>
 
@@ -10,9 +10,9 @@
 
   <unique-host-id></unique-host-id>
 
-  <account-access-key>KEY</account-access-key>
+  <account-access-key>z3wz73pivywb</account-access-key>
 
-  <account-name>ACCOUNT_NAME</account-name>
+  <account-name>econocombrasil</account-name>
 
   <sim-enabled>true</sim-enabled>
 

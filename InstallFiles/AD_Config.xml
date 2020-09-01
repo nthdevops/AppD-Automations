@@ -7,31 +7,22 @@
   </logFileFolderAccessPermissions>
   <appdynamics-agent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <controller host="INSERIR A URL DO CONTROLLER" port="INSERIR A PORTA" ssl="false" enable_tls12="false">
+    <controller host="https://econocombrasil.saas.appdynamics.com" port="443" ssl="false" enable_tls12="false">
       <applications>
 
-        <application name="INSERIR O NOME DA APPLICATION" default="true"/>
+        <application name="TestAutomation" default="true"/>
         
       </applications>
         
-      <account name="INSERIR A ACCOUNT NAME" password="INSERIR A INSERIR A KEY" />
+      <account name="econocombrasil" password="z3wz73pivywb" />
     </controller>
       
     <machine-agent />
     
     <app-agents>
-      <standalone-applications>
-        <standalone-application executable="INSERIR O SERVICO.EXE">
-          <tier name="INSERIR O NOME DO TIER" />
-        </standalone-application>
-      </standalone-applications>
-
-      <!--> INICIO DO COMENTARIO
-      OU COLOQUE A TAG ABAIXO E APAGUE AS TAGS STANDALONE, CASO SEJA IIS (DELETE TAMBEM ESTE COMENTARIO)
       <IIS>
         <automatic />
       </IIS>
-      FIM DO COMENTARIO<!-->
     </app-agents>
   </appdynamics-agent>
 </winston>
