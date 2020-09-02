@@ -7,19 +7,24 @@
   </logFileFolderAccessPermissions>
   <appdynamics-agent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <controller host="https://econocombrasil.saas.appdynamics.com" port="443" ssl="false" enable_tls12="false">
+    <controller host="CONTROLLER_URL" port="PORT" ssl="false" enable_tls12="false">
       <applications>
 
-        <application name="TestAutomation" default="true"/>
+        <application name="APP_NAME" default="true"/>
         
       </applications>
         
-      <account name="econocombrasil" password="z3wz73pivywb" />
+      <account name="ACCOUNT_NAME" password="ACCESS_KEY" />
     </controller>
       
     <machine-agent />
     
     <app-agents>
+      <standalone-applications>
+        <standalone-application executable="SERVICE_NAME.EXE">
+          <tier name="TIER_NAME" />
+        </standalone-application>
+      </standalone-applications>
       <IIS>
         <automatic />
       </IIS>

@@ -12,48 +12,44 @@ function Unzip
 {
     param([string]$zipfile, [string]$outpath)
 
-    [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
+    [System.IO.Compression.ZipFile]::ExtractToDirectory("$zipfile", "$outpath")
 }
 
 # Função para verificar e criar diretório
 function Create {
 	param ($dirPath)
 	
-	if(-not (Test-Path $dirPath)){
-		New-Item -ItemType directory -Path $dirPath
+	if(-not (Test-Path "$dirPath")){
+		New-Item -ItemType directory -Path "$dirPath" | Out-Null
 	}
 }
 
-Write-Host Setting up agent installation..
 # A partir do diretório InstallFiles, declara as variáveis iniciais e cria os diretórios necessários
+Write-Host Setting up agent installation..
 $installFiles = "$PSScriptRoot\InstallFiles\"
-Set-Location $installFiles
+Set-Location "$installFiles"
 $machineDir = "$Env:ProgramFiles\AppDynamics\MachineAgent"
 Create $machineDir
 $machineAgentZip = Get-ChildItem ".\*machineagent*" -Name
-$machineAgentZip = $installFiles + $machineAgentZip
-$controllerInfo = $installFiles+"controller-info.xml"
+$machineAgentZip = "$installFiles" + "$machineAgentZip"
+$controllerInfo = "$installFiles"+"controller-info.xml"
 
-if (-not (Test-Path $machineAgentZip)){
+if (-not (Test-Path "$machineAgentZip")){
   Write-Host Missing machineagent zip file
   Break
 }
 
-if (-not (Test-Path $controllerInfo)){
+if (-not (Test-Path "$controllerInfo")){
   Write-Host Missing configuration file controller-info.xml
   Break
 }
 
-Write-Host Unzipping Machine Agent Files..
 # Faz unzip do machineagent e o instala
+Write-Host Unzipping Machine Agent Files..
 Unzip "$machineAgentZip" "$machineDir"
 Copy-Item $controllerInfo -Destination "$machineDir\conf\" -Force
 Write-Host Installing Machine Agent..
-Start-Process "$machineDir\InstallService.vbs"
+Start-Process "$machineDir\InstallService.vbs" -Wait
 
-
-# Restart dos serviços do AppDynamics
-Write-Host Restarting AppDynamics Machine Agent Service
-Restart-Service -Name "Appdynamics Machine Agent"
-
+Write-Host Installation finished!
 Pause

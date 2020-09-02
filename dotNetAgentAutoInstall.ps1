@@ -6,8 +6,8 @@ if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
   Break
 }
 
-Write-Host Setting up agent installation..
 # A partir do diretório InstallFiles, declara as variáveis iniciais e cria os diretórios necessários
+Write-Host Setting up agent installation..
 $installFiles = "$PSScriptRoot\InstallFiles\"
 Set-Location $installFiles
 $ADConfig = $installFiles+"AD_Config.xml"
@@ -22,15 +22,10 @@ New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control -Name ServicesPipe
 # Copia o arquivo de configuração do instalador de .NET e instala o agente
 Copy-Item $ADConfig $installFiles"dotNetAgentSetup\AppDynamics\" -Force
 Write-Host Installing AppDynamics .NET Agent
-Start-Process $installFiles"dotNetAgentSetup\Installer.bat"
-Pause
-
-# Restart dos serviços do AppDynamics
-Write-Host Restarting AppDynamics Coordinator Service
-Restart-Service -Name "AppDynamics.Agent.Coordinator_service"
+Start-Process $installFiles"dotNetAgentSetup\Installer.bat" -Wait
 
 # Deleta o arquivo de configuração
-Remove-Item $installFiles+"dotNetAgentSetup\AppDynamics\AD_Config.xml"
+Remove-Item $installFiles"dotNetAgentSetup\AppDynamics\AD_Config.xml"
 
 Write-Host Installation finished!
 Pause
